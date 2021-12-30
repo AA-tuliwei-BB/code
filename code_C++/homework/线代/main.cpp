@@ -2,7 +2,7 @@
 
 using namespace std;
 
-const int n = 4;
+const int n = 5;
 long double a[n + 1][n + 2];
 
 int main() {
@@ -11,7 +11,7 @@ int main() {
 			cin >> a[i][j];
 
 	for (int i = 1; i <= n; ++i) {
-		if (!a[i][i]) {
+		if (fabs(a[i][i]) < 1e-6) {
 			for (int j = i + 1; j <= n; ++j)
 				if (fabs(a[j][i]) > 1e-6) {
 					swap(a[i], a[j]);
@@ -26,7 +26,7 @@ int main() {
 	}
 
 	for (int i = n; i; --i) {
-		if (a[i][i] == 0) return 1;
+		if (a[i][i] == 0) continue;
 		a[i][n + 1] /= a[i][i], a[i][i] = 1;
 		for (int j = i - 1; j; --j) {
 			a[j][n + 1] -= a[i][n + 1] * a[j][i];
@@ -34,7 +34,10 @@ int main() {
 		}
 	}
 
-	for (int i = 1; i <= n; ++i)
-		printf("%.5Lf\n", a[i][n + 1]);
+	for (int i = 1; i <= n; ++i) {
+		for (int j = 1; j <= n + 1; ++j)
+			printf("%5.0Lf ", a[i][j]);
+		puts("");
+	}
 	return 0;
 }
